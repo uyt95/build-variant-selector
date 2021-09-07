@@ -1,0 +1,34 @@
+<idea-plugin>
+    <id>me.uyt.build.variant.selector</id>
+    <name>Build Variant Selector</name>
+    <vendor email="uytdevelopment@outlook.com">Uyt Development</vendor>
+    <description>
+        <![CDATA[
+            Dialog to make it easier to select a build variant by selecting a build type and a build flavor for every
+            dimension of the active runConfiguration module.<br/>
+            <br/>
+            <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+            <br/>
+        ]]>
+    </description>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>org.jetbrains.android</depends>
+    <depends>com.intellij.modules.androidstudio</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+        <action id="me.uyt.build.variant.selector.BuildVariantSelectorAction"
+                class="me.uyt.build.variant.selector.BuildVariantSelectorAction" text="Build Variant Selector"
+                description="Select a combination of build flavors and a build type.">
+            <add-to-group group-id="BuildMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift ctrl alt V"/>
+        </action>
+    </actions>
+</idea-plugin>
