@@ -4,8 +4,7 @@ import com.android.tools.idea.gradle.project.model.AndroidModuleModel
 import com.android.tools.idea.gradle.variant.view.BuildVariantUpdater
 import com.intellij.execution.RunManager
 import com.intellij.execution.configurations.ModuleBasedConfiguration
-import com.intellij.notification.NotificationDisplayType
-import com.intellij.notification.NotificationGroup
+import com.intellij.notification.NotificationGroupManager
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
@@ -61,7 +60,12 @@ class BuildVariantSelectorAction : AnAction() {
     }
 
     private fun parseBuildTypes(module: AndroidModuleModel): List<SelectOption> {
-        return module.buildTypes.map { SelectOption(it, it == module.selectedVariant.buildType) }
+        return module.androidProject.buildTypes.map {
+            SelectOption(
+                it.buildType.name,
+                it.buildType.name == module.selectedVariant.buildType
+            )
+        }
     }
 
     private fun getSelectedVariant(
@@ -92,21 +96,9 @@ class BuildVariantSelectorAction : AnAction() {
     }
 
     private fun showNotification(event: AnActionEvent, content: String) {
-        NotificationGroup.create(
-            "build-variant-selector",
-            NotificationDisplayType.BALLOON,
-            true,
-            null,
-            null,
-            null,
-            null
-        )
-            .createNotification(
-                "Build variant selector - error:",
-                content,
-                NotificationType.ERROR,
-                null
-            )
+        NotificationGroupManager.getInstance()
+            .getNotificationGroup("error")
+            .createNotification("Build variant selector - error:", content, NotificationType.ERROR)
             .notify(event.project)
     }
 }

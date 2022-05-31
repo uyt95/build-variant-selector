@@ -20,6 +20,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
+        <notificationGroup id="error" displayType="BALLOON"/>
     </extensions>
 
     <actions>
