@@ -1,6 +1,6 @@
 package me.uyt.build.variant.selector
 
-import com.android.tools.idea.gradle.project.model.AndroidModuleModel
+import com.android.tools.idea.gradle.project.model.GradleAndroidModel
 import com.android.tools.idea.gradle.variant.view.BuildVariantUpdater
 import com.intellij.execution.RunManager
 import com.intellij.execution.configurations.ModuleBasedConfiguration
@@ -38,14 +38,14 @@ class BuildVariantSelectorAction : AnAction() {
         }
     }
 
-    private fun getRunConfigurationModule(project: Project): AndroidModuleModel? {
+    private fun getRunConfigurationModule(project: Project): GradleAndroidModel? {
         val runConfiguration =
             RunManager.getInstance(project).selectedConfiguration?.configuration as? ModuleBasedConfiguration<*, *>
                 ?: return null
-        return runConfiguration.configurationModule.module?.let { AndroidModuleModel.get(it) }
+        return runConfiguration.configurationModule.module?.let { GradleAndroidModel.get(it) }
     }
 
-    private fun parseFlavors(module: AndroidModuleModel): Map<String, List<SelectOption>> {
+    private fun parseFlavors(module: GradleAndroidModel): Map<String, List<SelectOption>> {
         val flavors = mutableMapOf<String, MutableList<SelectOption>>()
         module.androidProject.flavorDimensions.forEach {
             flavors[it] = mutableListOf()
@@ -59,7 +59,7 @@ class BuildVariantSelectorAction : AnAction() {
         return flavors
     }
 
-    private fun parseBuildTypes(module: AndroidModuleModel): List<SelectOption> {
+    private fun parseBuildTypes(module: GradleAndroidModel): List<SelectOption> {
         return module.androidProject.buildTypes.map {
             SelectOption(
                 it.buildType.name,
