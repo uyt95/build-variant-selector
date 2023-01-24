@@ -15,22 +15,23 @@ class BuildVariantSelectorAction : AnAction() {
     override fun actionPerformed(event: AnActionEvent) {
         try {
             val project = event.project ?: return
-            val module = getRunConfigurationModule(project) ?: return
-            val flavors = parseFlavors(module)
-            val buildTypes = parseBuildTypes(module)
+            val pair = getRunConfigurationModuleAndModel(project) ?: return
+            val module = pair.first
+            val model = pair.second
+            val flavors = parseFlavors(model)
+            val buildTypes = parseBuildTypes(model)
 
             val shouldSave =
-                BuildVariantDialog(module.androidProject.flavorDimensions, flavors, buildTypes).showAndGet()
+                BuildVariantDialog(model.androidProject.flavorDimensions, flavors, buildTypes).showAndGet()
             if (shouldSave) {
                 val selectedVariant = getSelectedVariant(
-                    module.androidProject.flavorDimensions,
+                    model.androidProject.flavorDimensions,
                     flavors,
                     buildTypes
                 )
 
-                if (module.selectedVariantName != selectedVariant) {
-                    BuildVariantUpdater.getInstance(project)
-                        .updateSelectedBuildVariant(project, module.moduleName, selectedVariant)
+                if (model.selectedVariantName != selectedVariant) {
+                    BuildVariantUpdater.getInstance(project).updateSelectedBuildVariant(module, selectedVariant)
                 }
             }
         } catch (t: Throwable) {
@@ -38,11 +39,13 @@ class BuildVariantSelectorAction : AnAction() {
         }
     }
 
-    private fun getRunConfigurationModule(project: Project): GradleAndroidModel? {
+    private fun getRunConfigurationModuleAndModel(project: Project): Pair<com.intellij.openapi.module.Module, GradleAndroidModel>? {
         val runConfiguration =
             RunManager.getInstance(project).selectedConfiguration?.configuration as? ModuleBasedConfiguration<*, *>
                 ?: return null
-        return runConfiguration.configurationModule.module?.let { GradleAndroidModel.get(it) }
+        val module = runConfiguration.configurationModule.module ?: return null
+        val model = GradleAndroidModel.get(module) ?: return null
+        return Pair(module, model)
     }
 
     private fun parseFlavors(module: GradleAndroidModel): Map<String, List<SelectOption>> {
