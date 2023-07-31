@@ -48,27 +48,27 @@ class BuildVariantSelectorAction : AnAction() {
         return Pair(module, model)
     }
 
-    private fun parseFlavors(module: GradleAndroidModel): Map<String, List<SelectOption>> {
+    private fun parseFlavors(model: GradleAndroidModel): Map<String, List<SelectOption>> {
         val flavors = mutableMapOf<String, MutableList<SelectOption>>()
-        module.androidProject.flavorDimensions.forEach {
+        model.androidProject.flavorDimensions.forEach {
             flavors[it] = mutableListOf()
         }
-        module.androidProject.productFlavors.forEach { flavorContainer ->
+        model.androidProject.multiVariantData?.productFlavors?.forEach { flavorContainer ->
             val flavor = flavorContainer.productFlavor
             val dimension = flavor.dimension ?: return@forEach
-            val selected = module.selectedVariant.productFlavors.contains(flavor.name)
+            val selected = model.selectedVariant.productFlavors.contains(flavor.name)
             flavors[dimension]?.add(SelectOption(flavor.name, selected))
         }
         return flavors
     }
 
-    private fun parseBuildTypes(module: GradleAndroidModel): List<SelectOption> {
-        return module.androidProject.buildTypes.map {
+    private fun parseBuildTypes(model: GradleAndroidModel): List<SelectOption> {
+        return model.androidProject.multiVariantData?.buildTypes?.map {
             SelectOption(
                 it.buildType.name,
-                it.buildType.name == module.selectedVariant.buildType
+                it.buildType.name == model.selectedVariant.buildType
             )
-        }
+        } ?: emptyList()
     }
 
     private fun getSelectedVariant(
