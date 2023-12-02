@@ -1,13 +1,13 @@
 plugins {
-    id 'org.jetbrains.intellij' version '1.10.2'
-    id 'org.jetbrains.kotlin.jvm' version '1.7.21'
+    id 'org.jetbrains.intellij' version '1.16.1'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.21'
 }
 
 group 'me.uyt'
-version '1.0.6'
+version '1.0.7'
 patchPluginXml {
     changeNotes = """
-        Updated for Android Studio Giraffe.
+        Updated for Android Studio Hedgehog.
     """
 }
 
@@ -19,13 +19,13 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.7.21'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.9.21'
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     // Define IntelliJ Platform against which to build the plugin project.
-    version = '223.8836.35' // Same IntelliJ IDEA version as target Android Studio version
+    version = '231.9392.1' // Same IntelliJ IDEA version as target Android Studio version
     type = 'IC' // Use IntelliJ IDEA CE because it's the basis of the IntelliJ Platform
 
     // Require the Android plugin, Gradle will match the plugin version to intellij.version
