@@ -4,10 +4,10 @@ plugins {
 }
 
 group 'me.uyt'
-version '1.0.10'
+version '1.0.11'
 patchPluginXml {
     changeNotes = """
-        Updated for Android Studio Koala.
+        Updated for Android Studio Ladybug.
     """
 }
 
@@ -25,8 +25,8 @@ dependencies {
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     // Define IntelliJ Platform against which to build the plugin project.
-    version = '241.15989.150' // Same IntelliJ IDEA version as target Android Studio version
-    type = 'IC' // Use IntelliJ IDEA CE because it's the basis of the IntelliJ Platform
+    version = '2024.2.1.9' // Same IntelliJ IDEA version as target Android Studio version
+    type = 'AI' // Use IntelliJ IDEA CE because it's the basis of the IntelliJ Platform
 
     // Require the Android plugin, Gradle will match the plugin version to intellij.version
     plugins = ['android']
