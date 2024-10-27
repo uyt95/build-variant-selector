@@ -1,37 +1,37 @@
 plugins {
-    id 'org.jetbrains.intellij' version '1.17.4'
     id 'org.jetbrains.kotlin.jvm' version '2.0.20'
+    id 'org.jetbrains.intellij.platform' version '2.1.0'
 }
 
-group 'me.uyt'
-version '1.0.11'
-patchPluginXml {
-    changeNotes = """
-        Updated for Android Studio Ladybug.
-    """
+intellijPlatform {
+    pluginConfiguration {
+        name = 'Build Variant Selector'
+        group = 'me.uyt.build.variant.selector'
+        version = '1.0.11'
+        changeNotes = """
+            Updated for Android Studio Ladybug.
+        """
+    }
+
+    buildSearchableOptions.set(false)
 }
 
 repositories {
     mavenCentral()
-    maven {
-        url 'https://www.jetbrains.com/intellij-repository/releases'
+    intellijPlatform {
+        defaultRepositories()
     }
 }
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:2.0.20'
+    intellijPlatform {
+        bundledPlugin('org.jetbrains.android')
+        instrumentationTools()
+        androidStudio('2024.2.1.9')
+    }
 }
 
-// See https://github.com/JetBrains/gradle-intellij-plugin/
-intellij {
-    // Define IntelliJ Platform against which to build the plugin project.
-    version = '2024.2.1.9' // Same IntelliJ IDEA version as target Android Studio version
-    type = 'AI' // Use IntelliJ IDEA CE because it's the basis of the IntelliJ Platform
-
-    // Require the Android plugin, Gradle will match the plugin version to intellij.version
-    plugins = ['android']
-}
-
-runIde {
-    // Absolute path to installed target Android Studio to use as IDE Development Instance
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_17
 }
