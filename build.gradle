@@ -7,7 +7,7 @@ intellijPlatform {
     pluginConfiguration {
         name = 'Build Variant Selector'
         group = 'me.uyt.build.variant.selector'
-        version = '1.0.11'
+        version = '1.0.12'
         changeNotes = """
             Updated for Android Studio Ladybug.
         """
