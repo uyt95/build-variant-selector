@@ -14,6 +14,10 @@ intellijPlatform {
     }
 
     buildSearchableOptions.set(false)
+
+    publishing {
+        token = providers.gradleProperty('intellijPlatformPublishingToken')
+    }
 }
 
 repositories {
