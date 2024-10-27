@@ -2,7 +2,7 @@ package me.uyt.build.variant.selector
 
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.ui.components.RadioButton
-import org.jetbrains.kotlin.lombok.utils.capitalize
+import me.uyt.build.variant.selector.util.TextFormatter
 import java.awt.Font
 import java.awt.GridLayout
 import javax.swing.*
@@ -54,7 +54,7 @@ class BuildVariantDialog(
     }
 
     private fun createLabel(text: String): JLabel {
-        return JLabel(text.capitalize()).apply {
+        return JLabel(TextFormatter.capitalize(text)).apply {
             font = font.deriveFont(font.style.or(Font.BOLD))
         }
     }

@@ -8,8 +8,9 @@ import com.intellij.notification.NotificationGroupManager
 import com.intellij.notification.NotificationType
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.module.Module
 import com.intellij.openapi.project.Project
-import org.jetbrains.kotlin.lombok.utils.capitalize
+import me.uyt.build.variant.selector.util.TextFormatter
 
 class BuildVariantSelectorAction : AnAction() {
     override fun actionPerformed(event: AnActionEvent) {
@@ -39,7 +40,7 @@ class BuildVariantSelectorAction : AnAction() {
         }
     }
 
-    private fun getRunConfigurationModuleAndModel(project: Project): Pair<com.intellij.openapi.module.Module, GradleAndroidModel>? {
+    private fun getRunConfigurationModuleAndModel(project: Project): Pair<Module, GradleAndroidModel>? {
         val runConfiguration =
             RunManager.getInstance(project).selectedConfiguration?.configuration as? ModuleBasedConfiguration<*, *>
                 ?: return null
@@ -83,7 +84,7 @@ class BuildVariantSelectorAction : AnAction() {
                 ?.let { flavor ->
                     var selectedFlavor = flavor.name
                     if (selectedVariantBuilder.isNotEmpty()) {
-                        selectedFlavor = selectedFlavor.capitalize()
+                        selectedFlavor = TextFormatter.capitalize(selectedFlavor)
                     }
                     selectedVariantBuilder.append(selectedFlavor)
                 }
@@ -91,7 +92,7 @@ class BuildVariantSelectorAction : AnAction() {
         buildTypes.find { buildType -> buildType.isSelected }?.let { buildType ->
             var selectedBuildType = buildType.name
             if (selectedVariantBuilder.isNotEmpty()) {
-                selectedBuildType = selectedBuildType.capitalize()
+                selectedBuildType = TextFormatter.capitalize(selectedBuildType)
             }
             selectedVariantBuilder.append(selectedBuildType)
         }
