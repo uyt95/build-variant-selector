@@ -7,9 +7,9 @@ intellijPlatform {
     pluginConfiguration {
         name = 'Build Variant Selector'
         group = 'me.uyt.build.variant.selector'
-        version = '1.0.12'
+        version = '1.0.13'
         changeNotes = """
-            Updated for Android Studio Ladybug.
+            Updated for Android Studio Meerkat.
         """
     }
 
@@ -31,7 +31,7 @@ dependencies {
     intellijPlatform {
         bundledPlugin('org.jetbrains.android')
         instrumentationTools()
-        androidStudio('2024.2.1.9')
+        androidStudio('2024.3.1.13')
     }
 }
 
